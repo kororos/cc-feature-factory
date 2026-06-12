@@ -1,0 +1,19 @@
+{
+  "name": "feature-factory",
+  "owner": {
+    "name": "Lefteris Kororos",
+    "email": "lkororos@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "feature-factory-core",
+      "source": "./plugins/feature-factory-core",
+      "description": "Stack-agnostic multi-agent feature-delivery chain: codebase-researcher -> story-writer -> spec-writer -> backend-builder -> frontend-builder -> test-verifier -> e2e-author -> implementation-validator, with human approval gates and a validator loop-back. Includes the feature-factory skill and a secret-scan pre-commit hook."
+    },
+    {
+      "name": "nextjs-prisma-overlay",
+      "source": "./plugins/nextjs-prisma-overlay",
+      "description": "Optional stack overlay: conventions for Next.js + Prisma + BullMQ + Resend + Docker/Playwright projects. Enable only on matching repos; sharpens the core agents with this stack's build/test/deploy rules."
+    }
+  ]
+}
