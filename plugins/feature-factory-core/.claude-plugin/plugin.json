@@ -1,6 +1,6 @@
 {
   "name": "feature-factory-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Stack-agnostic multi-agent feature-delivery chain with human approval gates, a validator loop-back, and a secret-scan pre-commit hook. Agents detect the project's stack and conventions; pair with a stack overlay for sharper, stack-specific behaviour.",
   "author": {
     "name": "Lefteris Kororos",
