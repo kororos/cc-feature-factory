@@ -1,14 +1,21 @@
 # feature-factory — Claude Code plugin marketplace
 
-A small marketplace with two plugins that package the multi-agent feature-delivery
+A small marketplace with three plugins that package the multi-agent feature-delivery
 workflow so it can be reused across any project and shared with teammates.
 
 - **`feature-factory-core`** — stack-agnostic. The eight specialist agents, the
-  `feature-factory` orchestration skill, and a secret-scan pre-commit hook.
+  `feature-factory` orchestration skill, and a secret-scan pre-commit hook. Its
+  end-to-end step is UI-runtime-neutral: a browser for web apps, a simulator/emulator
+  for mobile apps.
 - **`nextjs-prisma-overlay`** — optional. A `stack-conventions` skill encoding the
   Next.js (App Router) + TypeScript + Prisma/PostgreSQL + BullMQ/Redis + Resend +
   Docker/Playwright conventions. Enable it only on matching repos; it sharpens the
   core agents with that stack's build/test/migration/deploy rules.
+- **`react-native-overlay`** — optional. A `stack-conventions` skill encoding the
+  React Native (Expo managed/dev-client or bare RN) + TypeScript conventions:
+  navigation, client state, the data layer, native config/permissions, on-simulator
+  verification, and the e2e harness. It detects the RN flavor and the e2e harness
+  (Detox/Maestro), asking only when the repo is ambiguous. Enable it only on matching repos.
 
 The core agents discover each project's stack (from the manifest — `package.json`,
 `pyproject.toml`, `go.mod`, … — and the project's `CLAUDE.md`) and, if the
@@ -30,6 +37,9 @@ plugins/
   nextjs-prisma-overlay/
     .claude-plugin/plugin.json
     skills/stack-conventions/SKILL.md
+  react-native-overlay/
+    .claude-plugin/plugin.json
+    skills/stack-conventions/SKILL.md   # Expo/bare RN; detects flavor + e2e harness
 ```
 
 ## The chain
@@ -51,7 +61,12 @@ validator finds critical gaps. Run it with the `feature-factory` skill (or the
 /plugin install feature-factory-core@feature-factory
 # On Next.js + Prisma repos, also:
 /plugin install nextjs-prisma-overlay@feature-factory
+# On React Native (Expo or bare) repos, instead:
+/plugin install react-native-overlay@feature-factory
 ```
+
+Enable **at most one** stack overlay per repo — each ships a skill named
+`stack-conventions`, and the core agents consult whichever one is installed.
 
 Enable per project by committing `enabledPlugins` to the project's `.claude/settings.json`,
 or globally in `~/.claude/settings.json`.

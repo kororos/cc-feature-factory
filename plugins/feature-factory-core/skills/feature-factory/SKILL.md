@@ -33,7 +33,7 @@ This chain is stack-agnostic. The builder, verifier, and validator agents discov
 | `backend-builder` | the approved brief + researcher findings |
 | `frontend-builder` | the approved brief + researcher findings + backend-builder's summary (the API contract) |
 | `test-verifier` | the approved story + the approved brief + both builder summaries |
-| `e2e-author` | the approved story + the approved brief + both builder summaries + the test-verifier's coverage map (so it sees which ACs still need browser coverage). e2e-author reads the actual code on disk to ground its selectors and HTTP calls. |
+| `e2e-author` | the approved story + the approved brief + both builder summaries + the test-verifier's coverage map (so it sees which ACs still need end-to-end UI coverage). e2e-author reads the actual code on disk to ground its selectors and HTTP calls, and writes specs in whatever harness the project uses (a browser for web; a simulator/emulator for mobile). |
 | `implementation-validator` | the approved story + the approved brief + the test-verifier's report + the e2e-author's report (spec list + flagged divergences) |
 
 If a hand-off requires fabricating something a prior agent didn't produce, stop and report the gap.
@@ -65,6 +65,8 @@ Present the brief to the user. Ask explicitly: approve, request changes, or reje
 
 ### 6. backend-builder
 Invoke `backend-builder` with the approved brief + researcher findings. The agent reads `CLAUDE.md`, discovers the project's stack and conventions (consulting a `stack-conventions` skill if one is installed), implements the backend half (services, API routes, jobs, migrations, server-side helpers) with unit tests, runs the project's typecheck/lint/test commands, and returns a summary including the API contract.
+
+For a **client-only app that consumes a separate or pre-existing API** (e.g. a mobile app whose backend lives in another repo), there may be no backend work in this repo. "No backend changes — the feature consumes existing endpoints `X`, `Y`" is a valid backend-builder outcome; pass that API contract forward to the frontend-builder. Only treat it as a failure if the brief clearly required backend work in this repo and the agent skipped it.
 
 If the agent reports a failure or a rule conflict it cannot resolve, stop and surface it.
 

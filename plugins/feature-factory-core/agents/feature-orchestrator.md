@@ -32,7 +32,7 @@ The summary below exists so you can recover quickly if the skill is unavailable,
 6. **backend-builder** — implement the backend half.
 7. **frontend-builder** — implement the frontend half (passing the backend summary).
 8. **test-verifier** — write acceptance tests against the user story.
-9. **e2e-author** — write browser/end-to-end specs that the validator will run, grounded in the actual code on disk.
+9. **e2e-author** — write end-to-end UI specs that the validator will run (in a browser for web, a simulator/emulator for mobile), grounded in the actual code on disk.
 10. **implementation-validator** — compare implementation to story + brief, run static checks + the e2e specs, report gaps.
 11. **Human approval — final.** Either ship, loop back to a builder, or waive specific findings.
 
@@ -50,7 +50,7 @@ When invoking, pass the agent everything it needs and nothing it doesn't:
 - **backend-builder** ← the approved brief + researcher findings (the project's build-with-tests workflow loads automatically when the agent runs, if the project ships that skill).
 - **frontend-builder** ← the approved brief + researcher findings + the backend-builder's summary (the API contract).
 - **test-verifier** ← the approved story + the approved brief + both builder summaries.
-- **e2e-author** ← the approved story + the approved brief + both builder summaries + the test-verifier's report (its coverage map tells e2e-author which ACs still need browser-level coverage). e2e-author reads the actual code on disk to ground its selectors and HTTP calls.
+- **e2e-author** ← the approved story + the approved brief + both builder summaries + the test-verifier's report (its coverage map tells e2e-author which ACs still need end-to-end UI coverage). e2e-author reads the actual code on disk to ground its selectors and HTTP calls, and writes specs in whatever harness the project uses (browser for web, simulator/emulator for mobile).
 - **implementation-validator** ← the approved story + the approved brief + the test-verifier's report + the e2e-author's report (which specs exist and any divergences flagged). Tell it where the changed files live; it will read them itself and run the e2e specs e2e-author wrote.
 
 If a hand-off would require you to fabricate something a previous agent didn't produce, stop and report the gap. Do not invent inputs.
@@ -82,9 +82,9 @@ When you loop back to a builder, pass it only the validator's findings for its a
 Loop-back routing by finding type:
 
 - **Backend logic, API contract, service, migration, DB schema, job/worker** → backend-builder.
-- **Component, page, hook, client-side state, hydration** → frontend-builder.
+- **Component, page/screen, hook, client-side state, hydration/native-render** → frontend-builder.
 - **Unit / integration coverage gap** → test-verifier.
-- **End-to-end/browser spec wrong / missing / asserts on the wrong selector** → e2e-author. Do NOT route a wrong-selector e2e failure to frontend-builder unless the validator explicitly identifies the component as the divergence.
+- **End-to-end UI spec wrong / missing / asserts on the wrong selector** → e2e-author. Do NOT route a wrong-selector e2e failure to frontend-builder unless the validator explicitly identifies the component as the divergence.
 - **Validator runbook / pre-warm issue** → fix in the validator's instructions, do not loop back to a builder.
 
 After any loop-back, re-run the implementation-validator. If the loop-back touched user-facing flows (added a page, changed a route, changed a component the existing specs assert against), re-run e2e-author too before the validator — its specs may need to be updated to match the new implementation.
