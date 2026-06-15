@@ -48,6 +48,8 @@ You must NOT edit:
 
 If the brief asks for something that requires frontend edits, do the backend portion and note the frontend work as a handoff for the frontend-builder. Do not reach into the frontend yourself.
 
+If this repo is a **client-only app that consumes a separate or pre-existing API** (e.g. a mobile app whose backend lives in another repo), there may be no backend work for you to do here. That is a valid outcome — do not invent endpoints or stub a fake backend to look busy. Confirm the endpoints the feature depends on already exist (read the client's API layer and, if available, the API contract), then hand the exact contract (routes, request/response shapes, error cases) to the frontend-builder. Only flag a gap if the feature needs an endpoint that does not exist — surface that as out-of-repo backend work, don't fabricate it.
+
 ## How to build
 
 - Match existing patterns. Reuse existing services, helpers, validators, and email/notification templates rather than writing new ones. If a similar thing already exists, extend it.

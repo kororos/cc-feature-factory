@@ -1,0 +1,10 @@
+{
+  "name": "react-native-overlay",
+  "version": "0.1.0",
+  "description": "Stack-conventions overlay for React Native (Expo managed/dev-client or bare RN) + TypeScript projects. Provides the stack-conventions skill the core feature-factory agents consult for build/run/native-config/e2e/verify rules on mobile. Detects Expo vs bare RN and the project's e2e harness (Detox/Maestro), asking only when the repo is ambiguous. Enable only on matching repos.",
+  "author": {
+    "name": "Lefteris Kororos",
+    "email": "lkororos@gmail.com"
+  },
+  "keywords": ["react-native", "expo", "detox", "maestro", "eas", "mobile", "conventions"]
+}

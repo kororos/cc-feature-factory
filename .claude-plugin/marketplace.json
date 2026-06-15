@@ -14,6 +14,11 @@
       "name": "nextjs-prisma-overlay",
       "source": "./plugins/nextjs-prisma-overlay",
       "description": "Optional stack overlay: conventions for Next.js + Prisma + BullMQ + Resend + Docker/Playwright projects. Enable only on matching repos; sharpens the core agents with this stack's build/test/deploy rules."
+    },
+    {
+      "name": "react-native-overlay",
+      "source": "./plugins/react-native-overlay",
+      "description": "Optional stack overlay: conventions for React Native (Expo managed/dev-client or bare RN) + TypeScript projects. Detects the RN flavor and e2e harness (Detox/Maestro), asking only when the repo is ambiguous. Enable only on matching repos; sharpens the core agents with this stack's build/run/native-config/verify rules."
     }
   ]
 }
